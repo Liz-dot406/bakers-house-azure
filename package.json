@@ -3,18 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
- "scripts": {
-  "build": "tsc",
-  "start": "node dist/server.js",
-  "dev": "ts-node-dev src/server.ts",
-  "test": "cross-env NODE_ENV=test jest --runInBand",
-  "k6": "tsc --outDir dist && node -e \"const { execSync } = require('child_process'); const file = process.argv[1]; const outFile = 'dist/' + file.replace(/\\.ts$/, '.js'); execSync('k6 run ' + outFile, { stdio: 'inherit' });\"",
-  "smoke:user": "k6 run __tests__/performanceTesting/0.smoke/user.smoke.ts",
-  "stress:user": "k6 run __tests__/performanceTesting/1.stress/user.stress.ts",
-  "soak:user": "k6 run __tests__/performanceTesting/2.soak.Testsing/user.soak.ts",
-  "spike:user": "k6 run __tests__/performanceTesting/3.spike/user.spike.ts"
-},
-
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev src/server.ts",
+    "test": "cross-env NODE_ENV=test jest --runInBand",
+    "k6": "tsc --outDir dist && node -e \"const { execSync } = require('child_process'); const file = process.argv[1]; const outFile = 'dist/' + file.replace(/\\.ts$/, '.js'); execSync('k6 run ' + outFile, { stdio: 'inherit' });\"",
+    "smoke:user": "k6 run __tests__/performanceTesting/0.smoke/user.smoke.ts",
+    "stress:user": "k6 run __tests__/performanceTesting/1.stress/user.stress.ts",
+    "soak:user": "k6 run __tests__/performanceTesting/2.soak.Testsing/user.soak.ts",
+    "spike:user": "k6 run __tests__/performanceTesting/3.spike/user.spike.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -35,6 +34,7 @@
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   },

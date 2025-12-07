@@ -22,6 +22,20 @@ const initializeApp = () => {
   );
 
   app.use(express.json());
+    app.get("/", (req, res) => {
+    res.json({
+      status: "success",
+      message: "Cake API is running! 🎂",
+      routes: [
+        "/api/deliveries",
+        "/api/orders",
+        "/api/designs",
+        "/api/users",
+        "/api/cakes",
+        "/api/stages"
+      ]
+    });
+  });
 
    
  
