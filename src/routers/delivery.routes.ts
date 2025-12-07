@@ -1,13 +1,11 @@
 import { Router } from "express";
-import * as deliveryController from "../Controllers/delivery.controller";
+import * as deliverycontroller from "../Controllers/delivery.controller";
 
-const router = Router();
+export const registerDeliveryRoutes = (app: any) => {
+     app.post("/deliveries", deliverycontroller.scheduleDelivery); 
+    app.get("/deliveries", deliverycontroller.getAllDeliveries);
+    app.get("/deliveries/:id", deliverycontroller.getDeliveryById);     
+    app.put("/deliveries/:id", deliverycontroller.updateDelivery);
+    app.delete("/deliveries/:id", deliverycontroller.deleteDelivery);
 
-// All delivery routes
-router.get("/", deliveryController.getAllDeliveries);
-router.get("/:id", deliveryController.getDeliveryById);
-router.post("/", deliveryController.scheduleDelivery);
-router.put("/:id", deliveryController.updateDelivery);
-router.delete("/:id", deliveryController.deleteDelivery);
-
-export default router;
+};

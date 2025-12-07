@@ -1,26 +1,25 @@
-import * as DeliveryRepository from "../repositories/deliveries.repository";
-import { Delivery } from "../types/delivery.types";
+import * as DeliveryRepo from "../repositories/deliveries.repository";
+import { Delivery, DeliveryUpdate } from "../types/delivery.types";
 
-export const DeliveryService = {
-  async getAll() {
-    return await DeliveryRepository.getAllDeliveries();
-  },
+export const getAllDeliveries = async () => {
+  return await DeliveryRepo.getAllDeliveries();
+};
+export const getDeliveryById = async (DeliveryID: number) => {
+  return await DeliveryRepo.getDeliveryById(DeliveryID);
+};
 
-  async getById(id: number) {
-    const delivery = await DeliveryRepository.getDeliveryById(id);
-    if (!delivery) throw new Error("Delivery not found");
-    return delivery;
-  },
+export const scheduleDelivery = async (delivery: Delivery) => {
+  return await DeliveryRepo.createDelivery(delivery);
+};
 
-  async create(data: Delivery) {
-    await DeliveryRepository.createDelivery(data);
-  },
+export const updateDelivery = async (DeliveryID: number, delivery: DeliveryUpdate) => {
+  const existing = await DeliveryRepo.getDeliveryById(DeliveryID);
+  if (!existing) throw new Error("Delivery not found");
+  return await DeliveryRepo.updateDelivery(DeliveryID, delivery);
+};
 
-  async update(id: number, data: Delivery) {
-    await DeliveryRepository.updateDelivery(id, data);
-  },
-
-  async delete(id: number) {
-    await DeliveryRepository.deleteDelivery(id);
-  },
+export const deleteDelivery = async (DeliveryID: number) => {
+  const existing = await DeliveryRepo.getDeliveryById(DeliveryID);
+  if (!existing) throw new Error("Delivery not found");
+  return await DeliveryRepo.deleteDelivery(DeliveryID);
 };

@@ -1,6 +1,6 @@
 import express from "express";
 
-import deliveryRoutes from "./routers/delivery.routes";
+import { registerDeliveryRoutes } from "./routers/delivery.routes";
 import registerOrderRoutes from "./routers/orders.routes";
 import registerDesignRoutes from "./routers/design.routes";
 import registerUserRoutes from "./routers/user.routes";
@@ -25,21 +25,21 @@ const initializeApp = () => {
     app.get("/", (req, res) => {
     res.json({
       status: "success",
-      message: "Cake API is running! 🎂",
+      message: "Cake API is running!",
       routes: [
-        "/api/deliveries",
-        "/api/orders",
-        "/api/designs",
-        "/api/users",
-        "/api/cakes",
-        "/api/stages"
+        "/deliveries",
+        "/orders",
+        "/designs",
+        "/users",
+        "/cakes",
+        "/stages"
       ]
     });
   });
 
    
  
-  app.use("/api/deliveries", deliveryRoutes);
+  app.use("/deliveries", registerDeliveryRoutes);
   registerOrderRoutes(app);
   registerDesignRoutes(app);
   registerUserRoutes(app);

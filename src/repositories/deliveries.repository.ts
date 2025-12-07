@@ -1,55 +1,68 @@
 import { getPool } from "../db/config";
-import { Delivery } from "../types/delivery.types";
+import { Delivery, DeliveryUpdate } from "../types/delivery.types";
 
-export const getAllDeliveries = async (): Promise<Delivery[]> => {
+export const getAllDeliveries = async () => {
   const pool = await getPool();
   const result = await pool.request().query("SELECT * FROM Deliveries");
   return result.recordset;
 };
 
-export const getDeliveryById = async (id: number): Promise<Delivery | null> => {
+export const getDeliveryById = async (DeliveryID: number) => {
   const pool = await getPool();
   const result = await pool
     .request()
-    .input("id", id)
-    .query("SELECT * FROM Deliveries WHERE id = @id");
-  return result.recordset[0] || null;
+    .input("DeliveryID", DeliveryID)
+    .query("SELECT * FROM Deliveries WHERE DeliveryID = @DeliveryID");
+  return result.recordset[0];
 };
 
-export const createDelivery = async (delivery: Delivery): Promise<void> => {
+export const createDelivery = async (delivery: Delivery) => {
   const pool = await getPool();
-  await pool
+  const result = await pool
     .request()
-    .input("order_id", delivery.DeliveryID)
-    .input("delivery_date", delivery.DeliveryDate)
-    .input("status", delivery.Status)
+    .input("OrderID", delivery.OrderID)
+    .input("DeliveryAddress", delivery.DeliveryAddress)
+    .input("DeliveryDate", delivery.DeliveryDate)
+    .input("CourierName", delivery.CourierName || null)
+    .input("CourierContact", delivery.CourierContact || null)
+    .input("Status", delivery.Status || "Scheduled")
     .query(
-      "INSERT INTO Deliveries (order_id, delivery_date, status) VALUES (@order_id, @delivery_date, @status)",
+      `INSERT INTO Deliveries 
+       (OrderID, DeliveryAddress, DeliveryDate, CourierName, CourierContact, Status)
+       OUTPUT INSERTED.DeliveryID
+       VALUES (@OrderID, @DeliveryAddress, @DeliveryDate, @CourierName, @CourierContact, @Status)`
     );
+
+  return { data: { DeliveryID: result.recordset[0].DeliveryID } };
 };
 
-export const updateDelivery = async (
-  id: number,
-  delivery: Delivery,
-): Promise<void> => {
+export const updateDelivery = async (DeliveryID: number, delivery: DeliveryUpdate) => {
   const pool = await getPool();
   await pool
     .request()
-    .input("id", id)
-    .input("order_id", delivery.Order_id)
-    .input("delivery_date", delivery.DeliveryDate)
-    .input("status", delivery.Status)
+    .input("DeliveryID", DeliveryID)
+    .input("DeliveryAddress", delivery.DeliveryAddress)
+    .input("DeliveryDate", delivery.DeliveryDate)
+    .input("CourierName", delivery.CourierName)
+    .input("CourierContact", delivery.CourierContact)
+    .input("Status", delivery.Status)
     .query(
       `UPDATE Deliveries 
-       SET order_id = @order_id, delivery_date = @delivery_date, status = @status
-       WHERE id = @id`,
+       SET DeliveryAddress=@DeliveryAddress, DeliveryDate=@DeliveryDate, 
+           CourierName=@CourierName, CourierContact=@CourierContact, 
+           Status=@Status, UpdatedAt=GETDATE()
+       WHERE DeliveryID=@DeliveryID`
     );
+
+  return { message: "Delivery updated successfully" };
 };
 
-export const deleteDelivery = async (id: number): Promise<void> => {
+export const deleteDelivery = async (DeliveryID: number) => {
   const pool = await getPool();
   await pool
     .request()
-    .input("id", id)
-    .query("DELETE FROM Deliveries WHERE id = @id");
+    .input("DeliveryID", DeliveryID)
+    .query("DELETE FROM Deliveries WHERE DeliveryID=@DeliveryID");
+
+  return { message: "Delivery deleted successfully" };
 };
