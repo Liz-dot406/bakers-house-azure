@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 
 import { verificationData } from "../../src/types/user.types";
 
-// Mock dependencies
+
 jest.mock("../../src/repositories/user.repository");
 jest.mock("bcryptjs", () => ({
   __esModule: true,
@@ -46,40 +46,49 @@ describe("User Service ", () => {
       },
     ];
 
-    (userRepositories.getUsers as jest.Mock).mockResolvedValue(mockUsers);
+    (userRepositories.getAllUsers as jest.Mock).mockResolvedValue(mockUsers);
 
     const users = await userService.getAllUsers();
     expect(users).toEqual(mockUsers);
-    expect(userRepositories.getUsers).toHaveBeenCalledTimes(1);
+    expect(userRepositories.getAllUsers).toHaveBeenCalledTimes(1);
   });
 
-  it("should hash password, save user, and send verification email", async () => {
-    const mockUser = {
-      name: "Defla Chebet",
-      email: "chebet@gmail.com",
-      password: "password123",
-    };
+ it("should hash password, save user, and send verification email", async () => {
+  const mockUser = {
+    name: "Defla Chebet",
+    email: "chebet@gmail.com",
+    password: "password123",
+  };
 
-    // Mocks
-    (bcrypt.hash as jest.Mock).mockResolvedValue("hashedPassword");
-    (userRepositories.createUser as jest.Mock).mockResolvedValue({
-      message: "User created successfully. Verification code sent to email.",
-    });
-    (sendEmail as jest.Mock).mockResolvedValue(true);
-    (emailTemplate.verify as jest.Mock).mockReturnValue(
-      "<p>Your verification code is 123456</p>"
-    );
+  (bcrypt.hash as jest.Mock).mockResolvedValue("hashedPassword");
 
-    // Call the correct service function
-    const result = await userService.createUserWithVerification(mockUser as any);
-
-    expect(bcrypt.hash).toHaveBeenCalledWith("password123", 10);
-    expect(userRepositories.createUser).toHaveBeenCalled();
-    expect(sendEmail).toHaveBeenCalled();
-    expect(result).toEqual({
-      message: "User created successfully. Verification code sent to chebet@gmail.com.",
-    });
+  (userRepositories.createUser as jest.Mock).mockResolvedValue({
+    UserId: 1,
+    name: "Defla Chebet",
+    email: "chebet@gmail.com",
+    password: "hashedPassword"
   });
+
+  (sendEmail as jest.Mock).mockResolvedValue(true);
+
+  (emailTemplate.verify as jest.Mock).mockReturnValue(
+    "<p>Your verification code is 123456</p>"
+  );
+
+  const result = await userService.createUserWithVerification(
+    mockUser as any
+  );
+
+  expect(bcrypt.hash).toHaveBeenCalledWith("password123", 10);
+  expect(userRepositories.createUser).toHaveBeenCalled();
+  expect(sendEmail).toHaveBeenCalled();
+
+  expect(result).toEqual({
+    message:
+      "User created successfully. Verification code sent to chebet@gmail.com.",
+  });
+});
+
   it("should verify user with correct code", async () => {
         const mockUser = {
             email: "kemboi@gmail.com",
@@ -112,7 +121,7 @@ describe("User Service ", () => {
 
         (userRepositories.getUserByEmail as jest.Mock).mockResolvedValue(mockUser);
 
-        await expect(userService.verifyUser("kemboi@gmail.com", "1237456"))
+        await expect(userService.verifyUser("kemboi@gmail.com", 1237456))
             .rejects
             .toThrow("Invalid verification code");
     });

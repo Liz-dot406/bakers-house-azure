@@ -1,7 +1,7 @@
 import * as designRepo from "../../src/repositories/design.repository";
 import * as designService from "../../src/service/design.service";
 
-// Mock all repository methods
+
 jest.mock("../../src/repositories/design.repository");
 
 describe("Design Service", () => {
@@ -20,7 +20,7 @@ describe("Design Service", () => {
     jest.clearAllMocks();
   });
 
-  // listDesigns
+ 
   it("should return all designs", async () => {
     (designRepo.getAllDesigns as jest.Mock).mockResolvedValue([mockDesign]);
 
@@ -30,7 +30,7 @@ describe("Design Service", () => {
     expect(designRepo.getAllDesigns).toHaveBeenCalledTimes(1);
   });
 
-  // findDesign - success
+  
   it("should return a design by ID", async () => {
     (designRepo.getDesignById as jest.Mock).mockResolvedValue(mockDesign);
 
@@ -40,7 +40,7 @@ describe("Design Service", () => {
     expect(designRepo.getDesignById).toHaveBeenCalledWith(1);
   });
 
-  // findDesign - not found
+ 
   it("should throw an error if design not found", async () => {
     (designRepo.getDesignById as jest.Mock).mockResolvedValue(null);
 
@@ -48,7 +48,7 @@ describe("Design Service", () => {
     expect(designRepo.getDesignById).toHaveBeenCalledWith(999);
   });
 
-  // addDesign - success
+  
   it("should call createDesign with correct arguments", async () => {
     (designRepo.createDesign as jest.Mock).mockResolvedValue(undefined);
 
@@ -73,7 +73,7 @@ describe("Design Service", () => {
     );
   });
 
-  // addDesign - missing required fields
+
   it("should throw an error if required fields are missing", async () => {
     await expect(
       designService.addDesign("", "desc", "", 1, "", "img.jpg", "category")
@@ -81,7 +81,7 @@ describe("Design Service", () => {
     expect(designRepo.createDesign).not.toHaveBeenCalled();
   });
 
-  // modifyDesign - success
+ 
   it("should update an existing design", async () => {
     (designRepo.getDesignById as jest.Mock).mockResolvedValue(mockDesign);
     (designRepo.updateDesign as jest.Mock).mockResolvedValue(undefined);
@@ -110,7 +110,7 @@ describe("Design Service", () => {
     );
   });
 
-  // modifyDesign - not found
+ 
   it("should throw an error if design to update is not found", async () => {
     (designRepo.getDesignById as jest.Mock).mockResolvedValue(null);
 
@@ -120,7 +120,7 @@ describe("Design Service", () => {
     expect(designRepo.updateDesign).not.toHaveBeenCalled();
   });
 
-  // removeDesign - success
+  
   it("should delete an existing design", async () => {
     (designRepo.getDesignById as jest.Mock).mockResolvedValue(mockDesign);
     (designRepo.deleteDesign as jest.Mock).mockResolvedValue(undefined);
@@ -131,7 +131,7 @@ describe("Design Service", () => {
     expect(designRepo.deleteDesign).toHaveBeenCalledWith(1);
   });
 
-  // removeDesign - not found
+ 
   it("should throw an error if design to delete is not found", async () => {
     (designRepo.getDesignById as jest.Mock).mockResolvedValue(null);
 
