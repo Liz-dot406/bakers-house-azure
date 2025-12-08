@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 
 let pool: any;
 
-// Helper functions to generate unique email and phone
+
 const randomEmail = () => `testuser${Date.now()}@testmail.com`;
 const randomPhone = () => `07${Math.floor(10000000 + Math.random() * 90000000)}`;
 
@@ -14,7 +14,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  // Clean up all test users
+  
   await pool.request().query("DELETE FROM Users WHERE email LIKE '%@testmail.com'");
   await pool.close();
 });
@@ -100,13 +100,16 @@ describe("User API Integration Test Suite", () => {
   it("should fail to create a user with duplicate email", async () => {
     const newUser = {
       name: "user",
-      email: testUser.email, // Duplicate email from seeded user
+      email: testUser.email, 
       phone: randomPhone(),
       password: "securePass123",
     };
 
     const res = await request(app).post("/users/register").send(newUser);
-    expect(res.status).toBe(500);
+    expect(res.status).toBe(400);
+
+    expect(res.body.message).toBe("Email already exists");
+
   });
 
   it("should return user by ID", async () => {

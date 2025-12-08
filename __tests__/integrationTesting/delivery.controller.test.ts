@@ -8,7 +8,7 @@ let testDeliveryId: number;
 beforeAll(async () => {
   pool = await getPool();
 
-  // Insert a test delivery
+  
   const result = await pool.request().query(`
     INSERT INTO Deliveries
       (OrderID, DeliveryAddress, DeliveryDate, CourierName, CourierContact, Status)
@@ -22,7 +22,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  // Clean up test deliveries
+ 
   await pool.request().query(`
     DELETE FROM Deliveries 
     WHERE DeliveryAddress IN ('Test Address, Nyeri', 'Delete Me Address', 'New Test Delivery', 'Updated Address')
@@ -80,7 +80,7 @@ describe("Delivery Controller Integration Tests", () => {
   });
 
   it("should delete an existing delivery", async () => {
-    // Insert a temporary delivery to delete
+    
     const insertResult = await pool.request().query(`
       INSERT INTO Deliveries 
         (OrderID, DeliveryAddress, DeliveryDate, CourierName, CourierContact, Status)

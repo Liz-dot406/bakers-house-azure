@@ -3,12 +3,12 @@ import app from "../../src/index";
 import { getPool } from "../../src/db/config";
 
 let pool: any;
-let testOrderId: number; // dynamically store inserted order ID
+let testOrderId: number; 
 
 beforeAll(async () => {
   pool = await getPool();
 
-  // Insert a test order and capture its ID
+  
   const result = await pool.query(`
     INSERT INTO Cake_Orders
       (DesignId, UserId, Size, Flavor, Message, Status, DeliveryDate, Notes, ExtendedDescription, SampleImages, ColorPreferences)

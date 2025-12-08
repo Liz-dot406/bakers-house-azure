@@ -4,7 +4,9 @@ import * as DeliveryService from "../service/delivery.service";
 export const getAllDeliveries = async (req: Request, res: Response) => {
   try {
     const deliveries = await DeliveryService.getAllDeliveries();
-   return res.status(200).json(deliveries);
+    return res.status(200).json({
+      data: deliveries
+    });
   } catch (error: any) {
     return res.status(500).json({ message: "Error fetching deliveries", error });
   }
@@ -33,7 +35,10 @@ export const scheduleDelivery = async (req: Request, res: Response) => {
   const deliveryData = req.body;
   try {
     const delivery = await DeliveryService.scheduleDelivery(deliveryData);
-    res.status(201).json(delivery);
+     return res.status(201).json({
+      message: "Delivery scheduled successfully",
+      data: delivery
+     });
   } catch (error: any) {
     console.error("Error scheduling delivery:", error);
     res.status(500).json({ message: "Internal server error", error: error.message });

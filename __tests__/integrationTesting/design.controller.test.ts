@@ -8,7 +8,7 @@ let testDesignId: number;
 beforeAll(async () => {
   pool = await getPool();
 
-  // Insert a test design before running tests
+ 
   const result = await pool
     .request()
     .query(`
@@ -21,7 +21,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  // Clean up test data
+ 
   await pool.request().query(`
     DELETE FROM Cake_Designs 
     WHERE designName IN ('Test Design', 'New Design', 'Delete Me')
@@ -84,7 +84,7 @@ describe("Cake Designs Controller Integration Tests", () => {
   });
 
   it("should delete an existing design", async () => {
-    // Insert a temporary design to delete
+    
     const result = await pool.request().query(`
       INSERT INTO Cake_Designs (designName, description, baseFlavor, availability, size, imageUrl, category)
       OUTPUT INSERTED.designId

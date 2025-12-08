@@ -10,14 +10,14 @@ let testStageId: number;
 beforeAll(async () => {
   pool = await getPool();
 
-  // Insert dummy user
+ 
   const userResult = await pool.request()
     .input("name", "testuser")
     .input("email", "testuser@example.com")
     .input("password", "testpass")
-    .input("phone", "1234567890") // REQUIRED
-    .input("address", "Test Address") // optional, but good to include
-    .input("role", "customer") // optional
+    .input("phone", "1234567890") 
+    .input("address", "Test Address") 
+    .input("role", "customer") 
     .query(`
       INSERT INTO Users (name, email, password, phone, address, role)
       OUTPUT INSERTED.userid
@@ -26,7 +26,7 @@ beforeAll(async () => {
 
   testUserId = userResult.recordset[0].userid;
 
-  // Insert dummy order
+  
   const orderResult = await pool.request()
     .input("userid", testUserId)
     .input("DesignId", 1)
@@ -42,7 +42,7 @@ beforeAll(async () => {
     `);
   testOrderId = orderResult.recordset[0].Id;
 
-  // Insert dummy stage
+  
   const stageResult = await pool.request()
     .input("OrderId", testOrderId)
     .input("StageName", "Baking")
