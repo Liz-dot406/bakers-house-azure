@@ -18,6 +18,11 @@ export const getDeliveryById = async (DeliveryID: number) => {
 
 export const createDelivery = async (delivery: Delivery) => {
   const pool = await getPool();
+
+  if (!delivery.OrderID || !delivery.DeliveryAddress || !delivery.DeliveryDate) {
+    throw new Error("OrderID, DeliveryAddress, and DeliveryDate are required");
+  }
+
   const result = await pool
     .request()
     .input("OrderID", delivery.OrderID)
@@ -27,14 +32,16 @@ export const createDelivery = async (delivery: Delivery) => {
     .input("CourierContact", delivery.CourierContact || null)
     .input("Status", delivery.Status || "Scheduled")
     .query(
-      `INSERT INTO Deliveries 
+      `INSERT INTO Deliveries
        (OrderID, DeliveryAddress, DeliveryDate, CourierName, CourierContact, Status)
-       OUTPUT INSERTED.DeliveryID
+       OUTPUT INSERTED.*
        VALUES (@OrderID, @DeliveryAddress, @DeliveryDate, @CourierName, @CourierContact, @Status)`
     );
 
-  return { data: { DeliveryID: result.recordset[0].DeliveryID } };
+  
+  return result.recordset[0];
 };
+
 
 export const updateDelivery = async (DeliveryID: number, delivery: DeliveryUpdate) => {
   const pool = await getPool();

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as designService from "../service/design.service";
 
-// Get all designs
+
 export const getAllDesigns = async (req: Request, res: Response) => {
   try {
     const designs = await designService.listDesigns();
@@ -11,7 +11,6 @@ export const getAllDesigns = async (req: Request, res: Response) => {
   }
 };
 
-//  Get single design by ID
 export const getDesign = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
@@ -22,7 +21,7 @@ export const getDesign = async (req: Request, res: Response) => {
   }
 };
 
-//  Create new design
+
 export const createDesign = async (req: Request, res: Response) => {
   try {
     const {
@@ -51,7 +50,7 @@ export const createDesign = async (req: Request, res: Response) => {
   }
 };
 
-//  Update existing design
+
 export const updateDesign = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
@@ -82,7 +81,7 @@ export const updateDesign = async (req: Request, res: Response) => {
   }
 };
 
-// Delete design
+
 export const deleteDesign = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);

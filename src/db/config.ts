@@ -36,7 +36,7 @@ let pool: sql.ConnectionPool | null = null;
 export const getPool = async () => {
   try {
     if (pool) {
-      // If already connected, reuse the existing pool
+    
       return pool;
     }
 

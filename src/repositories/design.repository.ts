@@ -1,7 +1,7 @@
 import { getPool } from "../db/config";
 import sql from "mssql";
 
-//  Create new design
+
 export const createDesign = async (
   designName: string,
   description: string,
@@ -28,7 +28,6 @@ export const createDesign = async (
     `);
 };
 
-// Fetch all designs
 export const getAllDesigns = async () => {
   const pool = await getPool();
   const result = await pool
@@ -37,7 +36,7 @@ export const getAllDesigns = async () => {
   return result.recordset;
 };
 
-//  Fetch design by ID
+
 export const getDesignById = async (id: number) => {
   const pool = await getPool();
   const result = await pool
@@ -82,7 +81,7 @@ export const updateDesign = async (
     `);
 };
 
-//  Delete design
+
 export const deleteDesign = async (id: number) => {
   const pool = await getPool();
   await pool

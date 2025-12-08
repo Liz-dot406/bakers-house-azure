@@ -4,16 +4,11 @@ import * as DeliveryService from "../service/delivery.service";
 export const getAllDeliveries = async (req: Request, res: Response) => {
   try {
     const deliveries = await DeliveryService.getAllDeliveries();
-    console.log("Deliveries fetched:", deliveries);  // <-- IMPORTANT
-    return res.status(200).json({ data: deliveries });
+   return res.status(200).json(deliveries);
   } catch (error: any) {
-    console.error("🔥 ERROR in getAllDeliveries:", error); // <-- WE NEED THIS
     return res.status(500).json({ message: "Error fetching deliveries", error });
   }
 };
-
-
-
 
 
 export const getDeliveryById = async (req: Request, res: Response) => {

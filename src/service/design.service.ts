@@ -1,18 +1,17 @@
 import * as designRepo from "../repositories/design.repository";
 
-//  Fetch all designs
 export const listDesigns = async () => {
   return await designRepo.getAllDesigns();
 };
 
-//  Find design by ID
+
 export const findDesign = async (id: number) => {
   const design = await designRepo.getDesignById(id);
   if (!design) throw new Error("Design not found");
   return design;
 };
 
-//  Create design
+
 export const addDesign = async (
   designName: string,
   description: string,
@@ -37,7 +36,7 @@ export const addDesign = async (
   );
 };
 
-//  Update design
+
 export const modifyDesign = async (
   id: number,
   designName: string,
@@ -63,7 +62,7 @@ export const modifyDesign = async (
   );
 };
 
-//  Delete design
+
 export const removeDesign = async (id: number) => {
   const existing = await designRepo.getDesignById(id);
   if (!existing) throw new Error("Design not found");

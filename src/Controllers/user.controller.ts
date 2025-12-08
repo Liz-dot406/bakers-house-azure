@@ -43,7 +43,7 @@ export const updateUserRolesController = async (
 ) => {
   const id = Number(req.params.id);
 
-  // Validate ID first
+ 
   if (!Number.isInteger(id)) {
     return res.status(400).json({ message: "Invalid user ID" });
   }
@@ -74,15 +74,17 @@ export const createUserController = async (req: Request, res: Response) => {
   const newUser = req.body;
 
   try {
+    
     const result = await userService.createUserWithVerification(newUser);
 
-    res.status(201).json(result);
+    
+    res.status(201).json({ message: result.message });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 
-//  Login user
+
 
 export const loginUserController = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -99,7 +101,6 @@ export const loginUserController = async (req: Request, res: Response) => {
   }
 };
 
-// Delete user
 export const deleteUserController = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   if (!Number.isInteger(id)) {
@@ -120,6 +121,7 @@ export const deleteUserController = async (req: Request, res: Response) => {
 
 export const verifyUserController = async (req: Request, res: Response) => {
   const { email, verification_code } = req.body;
+  const code = Number(verification_code);
 
   if (!email || !verification_code) {
     return res
@@ -138,7 +140,7 @@ export const verifyUserController = async (req: Request, res: Response) => {
 
 
 
-// Resend verification code
+
 export const resendVerificationController = async (
   req: Request,
   res: Response,

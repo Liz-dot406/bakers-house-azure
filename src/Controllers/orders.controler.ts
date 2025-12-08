@@ -29,12 +29,16 @@ export const getOrderById = async (req: Request, res: Response) => {
 
 export const createOrder = async (req: Request, res: Response) => {
   try {
-    const newOrder = await ordersService.createNewOrder(req.body);
-    res.status(201).json(newOrder);
-  } catch (error) {
-    console.error("Error creating order:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+  const newOrder = await ordersService.createNewOrder(req.body);
+  res.status(201).json({
+    message: "Order created successfully",
+    order: newOrder
+  });
+} catch (error: any) {
+  console.error("Error creating order:", error);
+  res.status(500).json({ message: "Internal Server Error", error: error.message });
+}
+
 };
 
 export const updateOrderDetails = async (req: Request, res: Response) => {
@@ -56,23 +60,25 @@ export const updateOrderDetails = async (req: Request, res: Response) => {
 
 
 
-
 export const updateOrderStatus = async (req: Request, res: Response) => {
   const orderId = parseInt(req.params.id);
-  console.log("order id", orderId);
-  const { Status } = req.body;
-  console.log(Status);
+  const { Status } = req.body || {}; 
+
+  if (!Status) {
+    return res.status(400).json({ message: "Status field is required" });
+  }
+
   try {
     await ordersService.changeOrderStatus(orderId, Status);
-
     res.status(200).json({ message: "Order status updated successfully" });
   } catch (error: any) {
     if (error.message === "Order not found") {
       return res.status(404).json({ error: "Order not found" });
     }
-    res.status(500).json(error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
+
 
 export const getOrdersByuserid = async (req: Request, res: Response) => {
   const userid = parseInt(req.params.userid);

@@ -68,16 +68,16 @@ export const updateOrderDetails = async (
 ) => {
   const pool = await getPool();
 
-  // Fetch existing order
+ 
   const existingOrder = await getOrderById(orderId);
   if (!existingOrder) {
     throw new Error("Order not found");
   }
 
-  // Merge updates
+ 
   const updatedOrder = { ...existingOrder, ...orderData };
 
-  // Update order in DB
+  
   await pool
     .request()
     .input("Id", sql.Int, orderId)

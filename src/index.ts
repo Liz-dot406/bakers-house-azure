@@ -39,7 +39,8 @@ const initializeApp = () => {
 
    
  
-  app.use("/deliveries", registerDeliveryRoutes);
+
+  registerDeliveryRoutes(app); 
   registerOrderRoutes(app);
   registerDesignRoutes(app);
   registerUserRoutes(app);

@@ -1,6 +1,6 @@
 export interface Delivery {
   DeliveryID?: number;
-  OrderID: number; // fixed casing to match DB
+  OrderID: number; 
   DeliveryAddress: string;
   DeliveryDate: string;
   CourierName?: string;

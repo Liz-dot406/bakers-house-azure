@@ -1,4 +1,4 @@
--- write all the sql code related to sql db connection and creation of tables here
+
 
 CREATE DATABASE CakeManagementDB;
 GO
@@ -6,7 +6,7 @@ GO
 USE CakeManagementDB;
 GO
 
--- Drop existing tables to avoid conflicts
+
 DROP TABLE IF EXISTS Cake_Orders;
 DROP TABLE IF EXISTS Cake_Designs;
 GO
@@ -26,7 +26,7 @@ CREATE TABLE Cake_Designs (
         END PERSISTED,
     ImageUrl NVARCHAR(255),
     Category NVARCHAR(100),
-    Availability BIT DEFAULT 1, -- 1 = available, 0 = unavailable
+    Availability BIT DEFAULT 1, 
     CreatedAt DATETIME2 DEFAULT SYSDATETIME(),
     UpdatedAt DATETIME2 DEFAULT SYSDATETIME()
 );
@@ -46,7 +46,7 @@ TRUNCATE TABLE Cake_Designs;
 
 
 ALTER TABLE Cake_Designs
-ADD AvailableSizes NVARCHAR(100) NULL;  -- e.g. 'Small,Medium,Large'
+ADD AvailableSizes NVARCHAR(100) NULL;  
 
 
 DROP TABLE IF EXISTS Cake_Designs;
@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE Cake_Orders(
     Id INT PRIMARY KEY IDENTITY(1,1),
     userid INT NOT NULL,
-    DesignId INT NULL, -- Optional design
+    DesignId INT NULL, 
     Size NVARCHAR(10) NOT NULL CHECK (Size IN ('Small', 'Medium', 'Large')),
     Flavor NVARCHAR(50) NOT NULL,
     Message NVARCHAR(MAX) NULL,
@@ -117,7 +117,7 @@ GO
 SELECT * FROM Cake_Orders;
 GO
     
-    -- Create users table
+   
 CREATE TABLE Users(
   userid INT PRIMARY KEY IDENTITY(1,1),
   name VARCHAR(100) NOT NULL,
@@ -126,7 +126,7 @@ CREATE TABLE Users(
   phone VARCHAR(20) NOT NULL UNIQUE,
   address VARCHAR(255) NOT NULL,
   verification_code VARCHAR(10),
-    is_verified BIT DEFAULT 0,
+ is_verified BIT DEFAULT 0,
   role VARCHAR(20) DEFAULT 'customer',
   Created_At DATETIME2 DEFAULT SYSDATETIME(),
   Updated_At DATETIME2 DEFAULT SYSDATETIME()
@@ -137,7 +137,7 @@ CREATE TABLE Users(
 
 
 
--- Insert sample users
+
 INSERT INTO Users (name, email, password, phone, address, role)
 VALUES
 ('Elizabeth Njoki', 'liz@gmail.com', 'hashedpassword123', '0712345678', 'Nyeri', 'admin'),
@@ -169,7 +169,7 @@ DROP TABLE IF EXISTS ReadyMade_Cakes ;
         END PERSISTED,
     imageURL VARCHAR(255),
     quantityAvailable INT DEFAULT 1,
-    isactive BIT DEFAULT 1, -- 1 = available, 0 = unavailable
+    isactive BIT DEFAULT 1, 
     createdAt DATETIME2 DEFAULT SYSDATETIME(),
     updatedAt DATETIME2 DEFAULT SYSDATETIME()
 );
@@ -234,7 +234,7 @@ VALUES
 (3, 'Decorating', 'Pending', NULL, NULL, 'Scheduled for tomorrow.'),
 (2, 'Baking', 'Completed', '2025-10-23 07:45', '2025-10-23 10:15', 'Red velvet baked perfectly.');
 
--- DROP TABLE Cake_Stages ;
+
 
 SELECT * FROM Cake_Stages;
 
