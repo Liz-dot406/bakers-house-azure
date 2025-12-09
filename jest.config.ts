@@ -5,14 +5,13 @@ const config: Config = {
     testEnvironment: "node",
     verbose: true,
 
-    // Ignore K6 performance tests
     testPathIgnorePatterns: [
         "/node_modules/",
         "/__tests__/performanceTesting/"
     ],
 
-    // Coverage Configuration
-    collectCoverage: false,
+   
+    collectCoverage: true,
     coverageDirectory: "coverage",
     collectCoverageFrom: [
         '<rootDir>/src/**/*.ts'
